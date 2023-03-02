@@ -1,0 +1,31 @@
+{
+    "_id": ObjectId("617e289c57b1735f1d8e5a37"),
+    "title": "NoSQL Database",
+    "author": ObjectId("617e28c857b1735f1d8e5a38"),
+    "category": ObjectId("617e28c957b1735f1d8e5a39"),
+    "publicationYear": 2022,
+    "storageQuantity": 10,
+    "description": "This book provides a comprehensive introduction to NoSQL databases.",
+    "comments": [
+        {
+            "username": "user1",
+            "commentDate": ISODate("2023-02-28T00:00:00Z"),
+            "text": "Great book, highly recommended!"
+        },
+        {
+            "username": "user2",
+            "commentDate": ISODate("2023-03-01T00:00:00Z"),
+            "text": "I found this book to be very informative."
+        }
+    ],
+    "images": [
+        {
+            "filename": "page1.png",
+            "url": "https://example.com/book-images/page1.png"
+        },
+        {
+            "filename": "page2.png",
+            "url": "https://example.com/book-images/page2.png"
+        }
+    ]
+}

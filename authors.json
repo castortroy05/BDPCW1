@@ -1,0 +1,5 @@
+{
+    "_id": ObjectId("617e28c857b1735f1d8e5a38"),
+    "name": "John Smith",
+    "bio": "John Smith is a renowned expert in NoSQL databases."
+}

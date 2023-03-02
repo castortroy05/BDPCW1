@@ -1,0 +1,7 @@
+{
+    "_id": ObjectId("617e2a0c57b1735f1d8e5a3a"),
+    "book": ObjectId("617e289c57b1735f1d8e5a37"),
+    "username": "user1",
+    "commentDate": ISODate("2023-02-28T00:00:00Z"),
+    "text": "Great book, highly recommended!"
+}
