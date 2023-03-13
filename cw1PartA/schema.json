@@ -1,0 +1,164 @@
+{
+	"comments": {
+		"_id": {
+			"primaryKey": true,
+			"type": "Object",
+			"required": true
+		},
+		"comment": {
+			"type": "string",
+			"required": true
+		},
+		"book": {
+			"key": true,
+			"type": "string",
+			"required": true
+		},
+		"user": {
+			"type": "string",
+			"required": true
+		},
+		"date": {
+			"type": "string",
+			"required": true
+		},
+		"book_id": {
+			"foreignKey": true,
+			"references": "books",
+			"key": true,
+			"type": "Object",
+			"required": true
+		},
+		"user_id": {
+			"foreignKey": true,
+			"references": "users",
+			"type": "Object",
+			"required": true
+		}
+	},
+	"books": {
+		"_id": {
+			"primaryKey": true,
+			"type": "Object",
+			"required": true
+		},
+		"title": {
+			"key": true,
+			"type": "string",
+			"required": true
+		},
+		"author": {
+			"key": true,
+			"type": "string",
+			"required": true
+		},
+		"publication_year": {
+			"type": "number",
+			"required": true
+		},
+		"category": {
+			"type": "string",
+			"required": true
+		},
+		"description": {
+			"type": "string",
+			"required": true
+		},
+		"storageQuantity": {
+			"type": "number",
+			"required": true
+		},
+		"availableQuantity": {
+			"type": "number",
+			"required": true
+		},
+		"comments": {
+			"type": "Array",
+			"required": true
+		},
+		"sampleImages": {
+			"type": "Array",
+			"required": true
+		},
+		"category_id": {
+			"foreignKey": true,
+			"references": "categories",
+			"key": true,
+			"type": "Object",
+			"required": true
+		},
+		"author_id": {
+			"foreignKey": true,
+			"references": "authors",
+			"key": true,
+			"type": "Object",
+			"required": true
+		}
+	},
+	"categories": {
+		"_id": {
+			"primaryKey": true,
+			"type": "Object",
+			"required": true
+		},
+		"name": {
+			"type": "string",
+			"required": true
+		},
+		"titles": {
+			"type": "Array",
+			"required": true
+		},
+		"book_ids": {
+			"type": "Array",
+			"required": true
+		}
+	},
+	"authors": {
+		"_id": {
+			"primaryKey": true,
+			"type": "Object",
+			"required": true
+		},
+		"name": {
+			"key": true,
+			"type": "string",
+			"required": true
+		},
+		"book_ids": {
+			"type": "Array",
+			"required": true
+		},
+		"titles": {
+			"type": "Array",
+			"required": true
+		}
+	},
+	"users": {
+		"_id": {
+			"primaryKey": true,
+			"type": "Object",
+			"required": true
+		},
+		"username": {
+			"type": "string",
+			"required": true
+		},
+		"password": {
+			"type": "string",
+			"required": true
+		},
+		"email": {
+			"type": "string",
+			"required": true
+		},
+		"name": {
+			"type": "string",
+			"required": true
+		},
+		"comments": {
+			"type": "Array",
+			"required": true
+		}
+	}
+}
