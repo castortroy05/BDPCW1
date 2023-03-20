@@ -160,5 +160,26 @@
 			"type": "Array",
 			"required": true
 		}
-	}
-}
+	},
+	"sampleImages":{
+		"_id": {
+			"primaryKey": true,
+			"type": "Object",
+			"required": true
+		},
+		"imageURL": {
+			"type": "string",
+			"required": true
+		},
+		"caption": {
+			"type": "string",
+			"required": true
+		},
+		"book_id": {
+			"foreignKey": true,
+			"references": "books",
+			"key": true,
+			"type": "Object",
+			"required": true
+		}
+}}

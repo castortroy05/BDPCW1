@@ -1,0 +1,5 @@
+{"_id":{"$oid":"6418a02c5e87dd132babb8b4"},"username":"Sam","password":"1234","email":"samiswise@gmail.com","name":"Sam Gamgee","comments":[]}
+{"_id":{"$oid":"6418a02c5e87dd132babb8b5"},"username":"Frodo","password":"1234","email":"ballerbaggins@gmail.com","name":"Frodo Baggins","comments":[]}
+{"_id":{"$oid":"6418a02c5e87dd132babb8b6"},"username":"Gandalf","password":"1234","email":"whitewizard@gmail.com","name":"Gandalf the White","comments":[]}
+{"_id":{"$oid":"6418a02c5e87dd132babb8b7"},"username":"Smeagol","password":"1234","email":"gollum@gmail.com","name":"Smeagol Gollumson","comments":[]}
+{"_id":{"$oid":"6418a02c5e87dd132babb8b8"},"username":"Bilbo","password":"1234","email":"bigbilbobaggins@gmail.com","name":"Bilbo Baggins","comments":[]}
