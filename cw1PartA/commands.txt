@@ -381,7 +381,24 @@ if (book && user) {
 #4. Show all the details of a book, including all comments and images (e.g., sample pages),
 where the book description matches a specified pattern, for example, the word “NoSQL
 database” appears in the book description.
-db.books.aggregate([ { $match: { description: { $regex: /story/i } } }, { $lookup: { from: "comments", localField: "_id", foreignField: "book_id", as: "comments" } }, { $lookup: { from: "images", localField: "_id", foreignField: "book_id", as: "sampleImages" } }])
+db.books.aggregate([
+    { $match: { description: { $regex: /story/i } } },
+    { $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "book_id",
+        as: "comments"
+    } },
+    { $lookup: {
+        from: "sampleImages",
+        let: { relatedImages: "$sampleImages" },
+        pipeline: [
+            { $match: { $expr: { $in: ["$_id", "$$relatedImages"] } } }
+        ],
+        as: "sampleImages"
+    } }
+])
+
 
 #5 Devise and run a MongoDB aggregation pipeline query to find the average
 storage quantities for each book category.
@@ -393,7 +410,21 @@ db.books.aggregate([
     }
   }
 ])
-
+db.books.aggregate([
+    {
+        $set: {
+            storageQuantity: { $floor: { $add: [1, { $multiply: [100, { $rand: {} }] }] } },
+            availableQuantity: { $floor: { $add: [1, { $multiply: [100, { $rand: {} }] }] } }
+        }
+    },
+    {
+        $merge: {
+            into: "books",
+            on: "_id",
+            whenMatched: "replace"
+        }
+    }
+]);
 
 
 
