@@ -92,6 +92,12 @@ db.books.insertMany([
     db.categories.find().forEach(function(category) {var bookIds = db.books.find({ category: category.name }).toArray().map(function(book) { return book._id; });
     db.categories.updateOne({ name: category.name },{ $set: { titles: bookIds } });});
 
+    #add the titles of the books to the categories collection making the database referential
+    // This code is used to update the titles field in the categories collection to match the title field in the books collection.
+    // The code uses the category name from the books collection to join the collections, and then adds the book ID from the books collection to the category document as a new field called book_id.
+    // The code then removes the book document from the category document, and groups the category documents by the book_id field.
+    // The code then iterates through each result and uses the book_id field to update the titles array in the categories collection with the title field from the result.
+    db.books.aggregate([{$lookup:{from: "categories",localField: "category",foreignField: "name", as: "category_doc"}},{$addFields: {category_id: {arrayElemAt: [ "$category_doc._id", 0 ] }}},{$unset: "category_doc"}]).forEach(function(book) {db.categories.updateMany({ name: book.category },{ $addToSet: { titles: book._id } });});
 
     #populate the titles field in the authors collection,with the titles of the books written by the corresponding author
 
