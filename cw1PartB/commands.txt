@@ -1,0 +1,167 @@
+: CREATING A GRAPH DATABASE
+In this task you are given a graph data model. You are required to create and populate a Neo4j 
+database which follows that model. You are also required to devise and run Cypher queries to 
+retrieve information from that database.
+Scenario – Flight data model
+A graph database is required to represent items of flights, airports and tickets, in order to 
+explore connections within the data.
+The following diagram illustrates the node and relationship labels which should be used in the 
+Graph database that you implement:
+The following table shows the properties of nodes and edges where appropriate. Edge labels in 
+the diagram that are not included in the table can be assumed to have no properties.
+Node / Edge Properties
+Airport name
+Flight airline, date, distance, duration
+Ticket class, price
+DEPARTURE gate
+Further notes on this model:
+• Each flight has an DEPARTURE and ARRIVAL airport.
+• Each flight can have a number of tickets assigned to it.
+• Each airport can have a number of flights that either DEPARTUREate from it or are destined 
+to it.
+B1. Creating the database (10 marks)
+For this task you can use the Neo4J Sandbox or Neo4J Desktop. Create a Neo4J database called 
+cw1PartB. 
+Create nodes and edges, based on the data model provided, to represent the following:
+• 5 flights (at least), each with at least 2 tickets
+• At least 5 airports
+As an example, the following screenshot from the Neo4j browser shows a graph with 2 
+Airports, 2 flights and 3 tickets. One property of each node is shown in this view, but the other 
+properties are not. You should choose your own data (which can be real or made-up).
+You should use Cypher statements to create nodes and edges, and record each statement that 
+you use by copying and pasting the code into your report.
+B2. Queries (10 marks)
+You should devise and run a Cypher query to return each of the following data from the graph:
+1. all the nodes and edges in the database
+2. all flights DEPARTUREating from a specified airport
+3. a list of the names of all airports which are the ARRIVALs of flights DEPARTUREating from 
+a specified airport.
+4. adds a new ticket class to a specified flight
+5. returns the class and price of all tickets for flights to a specified ARRIVAL airport.
+Record each query by copying and pasting the code into your report. For each query also copy 
+the query results in text format and paste them into your report. It is suggested that you use a 
+monospaced font such as Courier to display the results. For query #1, also take a screenshot of 
+the result in graph mode, and insert this image in your report
+
+
+// B1 - Creating the database in Neo4j
+// create airports 
+
+CREATE (airport1:Airport { name: 'Los Angeles International Airport', code: 'LAX'}), 
+(airport2:Airport { name: 'Toronto Pearson International Airport', code: 'YYZ'}), 
+(airport3:Airport { name: 'Adolfo Suárez Madrid–Barajas Airport', code: 'MAD'}), 
+(airport4:Airport { name: 'Cape Town International Airport', code: 'CPT'}), 
+(airport5:Airport { name: 'Melbourne Airport', code: 'MEL'}), 
+(airport6:Airport { name: 'Newark Liberty International Airport', code:'EWR'}), 
+(airport7:Airport { name:'Stockholm Arlanda Airport', code:'ARN'}), 
+(airport8:Airport { name:'Vancouver International Airport', code:'YVR'}), 
+(airport9:Airport { name:'Ben Gurion Airport', code:'TLV'}), 
+(airport10:Airport {name:'Mexico City International Airport',code:'MEX'});
+<Prompt to continue here>
+CREATE (flight1:Flight { airline: 'United Airlines', date: '2023-04-01', distance: 4020, duration: 340 }), 
+(flight2:Flight { airline: 'Air Canada', date: '2023-04-02', distance: 5286, duration: 460 }), 
+(flight3:Flight { airline: 'Iberia', date: '2023-04-03', distance: 367, duration: 110 }), 
+(flight4:Flight { airline: 'South African Airways', date:'2023-04-04', distance:222,duration :50}), 
+(flight5:Flight { airline:'Virgin Australia' ,date:'2023-04-05' ,distance :374 ,duration :80}), 
+(flight6 : Flight{airline :'JetBlue' ,date :'2023-04-06' ,distance :3350 ,duration :290}), 
+(flight7 : Flight{airline :'SAS' ,date :'2023-04-07' ,distance :7360 ,duration :650}), 
+(flight8 : Flight{airline :'Cathay Pacific' ,date :'2023-04-08' ,distance :2616,duration :230}), 
+(flight9 : Flight{airline :'Air New Zealand' ,date :'2023-04-09' ,distance :1086,duration :150}), 
+(flight10 : Flight{airline :'Swiss International Air Lines' ,date :'2023-04-10',distance :9555,duration :840});
+<Prompt  to continue Here>
+CREATE (ticket1: Ticket {class:'Economy',price:550,gate:'A2'}),
+(ticket2: Ticket {class:'Business',price:2200,gate:'A2'}),
+(ticket3: Ticket {class:'Economy', price:650,gate:'B2'}),
+(ticket4: Ticket {class:'Business',price:2700,gate:'B2'}), 
+(ticket5: Ticket {class:'Economy',price:300,gate:'C2'}), 
+(ticket6: Ticket {class:'Business',price:1100,gate:'C2'}), 
+(ticket7: Ticket {class:'Economy',price:150,gate:'D2'}), 
+(ticket8: Ticket {class:'Business',price:550,gate:'D2'}), 
+(ticket9: Ticket {class:'Economy',price:200,gate:'E2'}), 
+(ticket10: Ticket {class:'Business',price:800,gate:'E2'}), 
+(ticket11: Ticket {class:'Economy',price:400,gate:'F2'}), 
+(ticket12: Ticket {class:'Business',price:1600,gate:'F2'}), 
+(ticket13: Ticket {class:'Economy',price:250,gate:'G2'}), 
+(ticket14: Ticket {class:'Business',price:1050,gate:'G2'}), 
+(ticket15: Ticket {class:'Economy',price:350,gate:'H2'}), 
+(ticket16: Ticket {class:'Business',price:1200,gate:'H2'}), 
+(ticket17: Ticket {class:'Economy',price:125,gate:'I3'}), 
+(ticket18: Ticket {class:'Business',price:650,gate:'I3'}), 
+(ticket19: Ticket {class:'Economy',price:200,gate:'J3'}), 
+(ticket20: Ticket {class:'Business',price:900,gate:'J3'});
+
+< Prompt to continue here>
+MATCH (flight1:Flight), (ticket1:Ticket), (ticket2:Ticket), (airport1:Airport), (airport10:Airport)
+WHERE flight1.airline = 'United Airlines' AND ticket1.price = 550 AND ticket2.price = 2200 AND airport1.code = 'LAX' AND airport10.code = 'MEX'
+CREATE (flight1)-[:ASSIGN]->(ticket1), (flight1)-[:ASSIGN]->(ticket2), (flight1)-[:DEPARTURE]->(airport1), (flight1)-[:ARRIVAL]->(airport10)
+
+MATCH (flight2:Flight), (ticket3:Ticket), (ticket4:Ticket), (airport2:Airport), (airport7:Airport)
+WHERE flight2.airline = 'Air Canada' AND ticket3.price = 650 AND ticket4.price = 2700 AND airport2.code = 'YYZ' AND airport7.code = 'ARN'
+CREATE (flight2)-[:ASSIGN]->(ticket3), (flight2)-[:ASSIGN]->(ticket4), (flight2)-[:DEPARTURE]->(airport2), (flight2)-[:ARRIVAL]->(airport7)
+
+MATCH (flight3:Flight), (ticket5:Ticket), (ticket6:Ticket), (airport3:Airport), (airport8:Airport)
+WHERE flight3.airline = 'Iberia' AND ticket5.price = 300 AND ticket6.price = 1100 AND airport3.code = 'MAD' AND airport8.code = 'YVR'
+CREATE (flight3)-[:ASSIGN]->(ticket5), (flight3)-[:ASSIGN]->(ticket6), (flight3)-[:DEPARTURE]->(airport3), (flight3)-[:ARRIVAL]->(airport8)
+
+MATCH (flight4:Flight), (ticket7:Ticket), (ticket8:Ticket), (airport4:Airport), (airport9:Airport)
+WHERE flight4.airline = 'South African Airways' AND ticket7.price = 150 AND ticket8.price = 550 AND airport4.code = 'CPT' AND airport9.code = 'TLV'
+CREATE (flight4)-[:ASSIGN]->(ticket7), (flight4)-[:ASSIGN]->(ticket8), (flight4)-[:DEPARTURE]->(airport4), (flight4)-[:ARRIVAL]->(airport9)
+
+MATCH (flight5:Flight), (ticket9:Ticket), (ticket10:Ticket), (airport5:Airport), (airport2:Airport)
+WHERE flight5.airline = 'Virgin Australia' AND ticket9.price = 200 AND ticket10.price = 800 AND airport5.code = 'MEL' AND airport2.code = 'YYZ'
+CREATE (flight5)-[:ASSIGN]->(ticket9),(flight5)-[:ASSIGN]->(ticket10),(flight5)-[:DEPARTURE]->(airport5),(flight5)-[:ARRIVAL]->(airport2)
+
+MATCH (flight6:Flight), (ticket11:Ticket), (ticket12:Ticket), (airport6:Airport), (airport3:Airport)
+WHERE flight6.airline = 'JetBlue' AND ticket11.price = 400 AND ticket12.price = 1600 AND airport6.code = 'EWR' AND airport3.code = 'MAD'
+CREATE(flight6)-[:ASSIGN]->(ticket11),(flight6)-[:ASSIGN]->(ticket12),(flight6)-[:DEPARTURE]->(airport6),(flight6)-[:ARRIVAL]->(airport3)
+
+MATCH (flight7:Flight), (ticket13:Ticket), (ticket14:Ticket), (airport7:Airport), (airport4:Airport)
+WHERE flight7.airline = 'SAS' AND ticket13.price = 250 AND ticket14.price = 1050 AND airport7.code = 'ARN' AND airport4.code = 'CPT'
+CREATE(flight7)-[:ASSIGN]->(ticket13),(flight7)-[:ASSIGN]->(ticket14),(flight7)-[:DEPARTURE]->(airport7),(flight7)-[:ARRIVAL]->(airport4)
+
+
+MATCH (flight8:Flight), (ticket15:Ticket), (ticket16:Ticket), (airport8:Airport), (airport4:Airport)
+WHERE flight8.airline = 'Cathay Pacific' AND ticket15.price = 350 AND ticket16.price = 1200 AND airport8.code = 'YVR' AND airport4.code = 'CPT'
+CREATE(flight8)-[:ASSIGN]->(ticket15),(flight8)-[:ASSIGN]->(ticket16),(flight8)-[:DEPARTURE]->(airport8),(flight8)-[:ARRIVAL]->(airport4)
+
+
+MATCH (flight9:Flight), (ticket17:Ticket), (ticket18:Ticket), (airport9:Airport), (airport6:Airport)
+WHERE flight9.airline = 'Air New Zealand' AND ticket17.price = 125 AND ticket18.price = 650 AND airport9.code = 'TLV' AND airport6.code = 'EWR'
+CREATE(flight9)-[:ASSIGN]->(ticket17),(flight9)-[:ASSIGN]->(ticket18),(flight9)-[:DEPARTURE]->(airport9),(flight9)-[:ARRIVAL]->(airport6)
+
+
+MATCH (flight10:Flight), (ticket19:Ticket), (ticket20:Ticket), (airport10:Airport), (airport5:Airport)
+WHERE flight10.airline = 'Swiss International Air Lines' AND ticket19.price = 200 AND ticket20.price = 900 AND airport10.code = 'MEX' AND airport5.code = 'MEL'
+CREATE(flight10)-[:ASSIGN]->(ticket19),(flight10)-[:ASSIGN]->(ticket20),(flight10)-[:DEPARTURE]->(airport10),(flight10)-[:ARRIVAL]->(airport5);
+
+
+
+
+//create flights and relationships to airports
+
+
+
+       MATCH (f:Flight {flight10: })
+CREATE (f)-[:ASSIGN]->(:Ticket {class: 'First', price: 6500, gate: 'A1'})
+
+
+MATCH (:Airport {code: 'MEL'})<-[:ARRIVAL]-(f:Flight)<-[:ASSIGN]-(t:Ticket)
+RETURN t.class, t.price
+
+To return all the nodes and edges in the database:
+MATCH (n) RETURN n
+To return all flights originating from a specified airport:
+MATCH (a:Airport {code: 'MAD'})<-[:DEPARTURE]-(f:Flight)
+RETURN f
+To return a list of the names of all airports which are the destinations of flights originating from a specified airport:
+MATCH (a:Airport {code: 'ARN'})<-[:DEPARTURE]-(f:Flight)-[:ARRIVAL]->(destination:Airport)
+RETURN destination.name
+
+To add a new ticket class to a specified flight:
+MATCH (flight10:Flight)
+WHERE flight10.airline = 'Swiss International Air Lines'
+CREATE (flight10)-[:ASSIGN]->(:Ticket {class: 'First', price: 6500, gate: 'A1'})
+
+To return the class and price of all tickets for flights to a specified destination airport:
+MATCH (a:Airport {code: 'MEL'})<-[r1:ARRIVAL]-(f:Flight)-[r2:ASSIGN]->(t:Ticket)
+RETURN DISTINCT t.class, t.price
